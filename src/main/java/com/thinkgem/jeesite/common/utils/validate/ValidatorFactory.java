@@ -26,16 +26,14 @@ public class ValidatorFactory {
 	 */
     private ValidatorFactory() {}
     
-
     /**
      * 执行具体的校验方法
-     *
-     * @param beanName 具体校验的类名称
+     * @param beanName
      */
-    public static void execute(String beanName) {
+    public static boolean execute(String beanName,Object value,String... regex ) {
     	try{
     		IValidator validator = (IValidator)webApplicationContext.getBean(beanName);
-            validator.test();
+            return validator.test(value);
     	}catch(NoSuchBeanDefinitionException e){
     		throw new ValildatorException("没有实现对应的校验类:"+toUpperCaseFirstOne(beanName));
     	}

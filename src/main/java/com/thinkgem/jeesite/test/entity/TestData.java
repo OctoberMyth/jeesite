@@ -28,7 +28,7 @@ public class TestData extends DataEntity<TestData> {
 	private Area area;		// 归属区域
 	private String name;		// 名称
 	private String sex;		// 性别
-	@Validate(required = true,regex = "",method="amount")
+	@Validate(required = true,regex = "^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0,2})?$",method="amount")
 	private BigDecimal amount;		// 金额
 	private int number;		// 数字
 	private Date beginInDate;		// 开始 加入日期

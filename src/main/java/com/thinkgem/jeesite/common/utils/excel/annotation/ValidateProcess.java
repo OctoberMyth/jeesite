@@ -2,6 +2,8 @@ package com.thinkgem.jeesite.common.utils.excel.annotation;
 
 import com.thinkgem.jeesite.common.utils.exception.ParamterException;
 import com.thinkgem.jeesite.common.utils.validate.ValidatorFactory;
+import com.thinkgem.jeesite.common.utils.validate.impl.SimpleValidator;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
@@ -65,13 +67,15 @@ public class ValidateProcess {
         }
 
         //2.格式化校验
-        if (StringUtils.isNotBlank(vf.method())) {
-            ValidatorFactory.execute(vf.method());
-        }else if(StringUtils.isNotBlank(vf.regex()))
-
+        if (StringUtils.isNotBlank(vf.method()) && !ValidatorFactory.execute(vf.method(),value)) {
+        	throw new ParamterException(vf.format());
+        }else if(StringUtils.isNotBlank(vf.regex()) && !SimpleValidator.test(value, vf.regex())){
+        	throw new ParamterException(vf.format());
+        }
+        
         //3.与数据库对比
         if (StringUtils.isNotBlank(vf.remote())) {
-            System.out.println("remote");
+        	throw new ParamterException(vf.back());
         }
     }
 
@@ -87,18 +91,4 @@ public class ValidateProcess {
         return true;
     }
 
-    //类型转换后格式校验
-    private static boolean format(Object value, Type returnType) {
-        return true;
-    }
-
-    //类型转换后数据校验
-    private static boolean remote(Object value, Type returnType) {
-        return true;
-    }
-
-    //类型转换
-    private static boolean TypeConversion(Object value, Type returnType) {
-        return true;
-    }
 }
