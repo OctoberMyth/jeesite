@@ -32,7 +32,6 @@ public class ValidateProcesser {
 			if (vf != null){
 				Type returnType = m.getGenericReturnType();
 				Class[] parameterTypes = m.getParameterTypes();
-				
 				try {
 					Method method = cls.getMethod(m.getName());
 					try {
