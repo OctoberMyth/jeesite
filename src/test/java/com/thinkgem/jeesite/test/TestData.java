@@ -10,9 +10,8 @@ import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
-import com.thinkgem.jeesite.common.utils.excel.annotation.FormatType;
 import com.thinkgem.jeesite.common.utils.excel.annotation.Validate;
-import com.thinkgem.jeesite.common.utils.excel.annotation.ValidateProcesser;
+import com.thinkgem.jeesite.common.utils.excel.annotation.ValidateProcess;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.User;
@@ -128,7 +127,7 @@ public class TestData extends DataEntity<TestData> {
 		t.setSex("nan");
 		t.setNumber(1);
 		t.setBeginInDate(new Date());
-		ValidateProcesser.processer(t);
+		ValidateProcess.process(t);
 	}
 		
 }

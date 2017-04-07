@@ -1,23 +1,18 @@
 package com.thinkgem.jeesite.common.utils.excel.annotation;
 
+import com.thinkgem.jeesite.common.utils.exception.ParamterException;
+import com.thinkgem.jeesite.common.utils.validate.ValidatorFactory;
+import org.apache.commons.lang3.StringUtils;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 
-import org.apache.commons.lang3.StringUtils;
+public class ValidateProcess {
 
-import com.thinkgem.jeesite.common.utils.exception.ParamterException;
-import com.thinkgem.jeesite.common.utils.validate.IValidator;
-
-public class ValidateProcesser {
-
-	private IValidator iValidator;
-	
-	private static String PACKAGE_URL = "com.thinkgem.jeesite.common.utils.validate.impl";
-	
     //处理器
-    public static <T> void processer(T t, int... groups) {
+    public static <T> void process(T t, int... groups) {
         Class<?> cls = t.getClass();
         //get annotation fields
         getAnnotationFields(t, cls);
@@ -71,13 +66,7 @@ public class ValidateProcesser {
 
         //2.格式化校验
         if (StringUtils.isNotBlank(vf.method())) {
-        	String classPath = PACKAGE_URL + toUpperCaseFirstOne(vf.method());
-        	try {
-				Class cls = Class.forName(classPath);
-				
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
+            ValidatorFactory.execute(vf.method());
         }
 
         //3.与数据库对比
@@ -85,15 +74,7 @@ public class ValidateProcesser {
             System.out.println("remote");
         }
     }
-    
-    //首字母转大写
-    private static String toUpperCaseFirstOne(String s){
-    	if(Character.isUpperCase(s.charAt(0))){
-    		return s;
-    	}else{
-    		return (new StringBuilder()).append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).toString();
-    	}
-    }
+
 
     //类型转换后非空校验
     private static boolean required(Object value, String returnType) {

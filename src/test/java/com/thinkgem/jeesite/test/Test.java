@@ -1,6 +1,6 @@
 package com.thinkgem.jeesite.test;
 
-import com.thinkgem.jeesite.common.utils.excel.annotation.ValidateProcesser;
+import com.thinkgem.jeesite.common.utils.excel.annotation.ValidateProcess;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,6 +13,6 @@ public class Test {
         t.setSex("nan");
         t.setNumber(1);
         t.setBeginInDate(new Date());
-        ValidateProcesser.processer(t);
+        ValidateProcess.process(t);
     }
 }
