@@ -1,16 +1,22 @@
 package com.thinkgem.jeesite.common.utils.excel.annotation;
 
-import com.thinkgem.jeesite.common.utils.exception.ParamterException;
-import org.apache.commons.lang3.StringUtils;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.thinkgem.jeesite.common.utils.exception.ParamterException;
+import com.thinkgem.jeesite.common.utils.validate.IValidator;
+
 public class ValidateProcesser {
 
-    //处理器解析需要校验的字段
+	private IValidator iValidator;
+	
+	private static String PACKAGE_URL = "com.thinkgem.jeesite.common.utils.validate.impl";
+	
+    //处理器
     public static <T> void processer(T t, int... groups) {
         Class<?> cls = t.getClass();
         //get annotation fields
@@ -19,6 +25,7 @@ public class ValidateProcesser {
         getAnnotationMethods(t, cls);
     }
 
+    //check the field
     private static <T> void getAnnotationMethods(T t, Class<?> cls) {
         Method[] ms = cls.getDeclaredMethods();
         for (Method method : ms) {
@@ -26,8 +33,8 @@ public class ValidateProcesser {
             Validate vf = method.getAnnotation(Validate.class);
             if (vf != null) {
                 try {
-                    Class<?> returnType = method.getReturnType();
                     Object value = method.invoke(t);
+                    Class<?> returnType = method.getReturnType();
                     validate(vf, value, returnType);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -36,6 +43,7 @@ public class ValidateProcesser {
         }
     }
 
+    //check methods
     private static <T> void getAnnotationFields(T t, Class<?> cls) {
         Field[] fields = cls.getDeclaredFields();
         for (Field field : fields) {
@@ -43,8 +51,8 @@ public class ValidateProcesser {
             Validate vf = field.getAnnotation(Validate.class);
             if (vf != null) {
                 try {
-                    Class<?> returnType = field.getType();
                     Object v = field.get(t);
+                    Class<?> returnType = field.getType();
                     validate(vf, v, returnType);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
@@ -58,23 +66,33 @@ public class ValidateProcesser {
     private static void validate(Validate vf, Object value, Class<?> returnType) {
         //1.非空校验
         if (vf.required() && StringUtils.isBlank(returnType.toString())) {
-            throw new ParamterException(vf.must() != null ? vf.must() : Message.MUST);
+            throw new ParamterException(vf.must());
         }
 
         //2.格式化校验
         if (StringUtils.isNotBlank(vf.method())) {
-            //1.调用全局校验方法method
-            System.out.println(FormatType.METHOD);
-            //2.调用自定义校验方法
-
-            //3.使用正则表达式校验regex
-
+        	String classPath = PACKAGE_URL + toUpperCaseFirstOne(vf.method());
+        	try {
+				Class cls = Class.forName(classPath);
+				
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
         }
 
         //3.与数据库对比
         if (StringUtils.isNotBlank(vf.remote())) {
             System.out.println("remote");
         }
+    }
+    
+    //首字母转大写
+    private static String toUpperCaseFirstOne(String s){
+    	if(Character.isUpperCase(s.charAt(0))){
+    		return s;
+    	}else{
+    		return (new StringBuilder()).append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).toString();
+    	}
     }
 
     //类型转换后非空校验
