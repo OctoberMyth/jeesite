@@ -28,6 +28,12 @@ public @interface Validate {
 	String method() default "";
 	
 	/**
+	 * regex如何检验不是很复杂则可以自定义正则校验
+	 * @return
+	 */
+	String regex() default "";
+	
+	/**
 	 * 格式化校验信息
 	 * @return
 	 */

@@ -67,7 +67,7 @@ public class ValidateProcess {
         //2.格式化校验
         if (StringUtils.isNotBlank(vf.method())) {
             ValidatorFactory.execute(vf.method());
-        }
+        }else if(StringUtils.isNotBlank(vf.method()))
 
         //3.与数据库对比
         if (StringUtils.isNotBlank(vf.remote())) {
