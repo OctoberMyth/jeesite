@@ -30,9 +30,10 @@ public class TestData extends DataEntity<TestData> {
 	private Area area;		// 归属区域
 	private String name;		// 名称
 	private String sex;		// 性别
+	@Validate(required = true,method = "amount")
 	private BigDecimal amount;		// 金额
 	private int number;		// 数字
-	private Date beginInDate;		// �?�� 加入日期
+	private Date beginInDate;		// 开始 加入日期
 	private Date endInDate;		// 结束 加入日期
 	
 	public TestData() {
@@ -67,7 +68,7 @@ public class TestData extends DataEntity<TestData> {
 		this.area = area;
 	}
 	
-	@Length(min=0, max=100, message="名称长度必须介于 0 �?100 之间")
+	@Length(min=0, max=100, message="名称长度必须介于 0 和100 之间")
 	public String getName() {
 		return name;
 	}
