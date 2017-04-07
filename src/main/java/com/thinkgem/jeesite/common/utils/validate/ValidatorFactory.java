@@ -30,7 +30,7 @@ public class ValidatorFactory {
     /**
      * 执行具体的校验方法
      *
-     * @param ValidatorName 具体校验的类名称
+     * @param beanName 具体校验的类名称
      */
     public static void execute(String beanName) {
     	try{
