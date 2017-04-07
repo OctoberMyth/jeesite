@@ -7,10 +7,13 @@ import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
 import org.hibernate.validator.constraints.Length;
+
+import java.math.BigDecimal;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import com.thinkgem.jeesite.common.utils.excel.annotation.Validate;
 
 /**
  * 单表生成Entity
@@ -25,9 +28,12 @@ public class TestData extends DataEntity<TestData> {
 	private Area area;		// 归属区域
 	private String name;		// 名称
 	private String sex;		// 性别
-	private Date inDate;		// 加入日期
+	@Validate(required = true,regex = "",method="amount")
+	private BigDecimal amount;		// 金额
+	private int number;		// 数字
 	private Date beginInDate;		// 开始 加入日期
 	private Date endInDate;		// 结束 加入日期
+	private Date inDate;		// 加入日期
 	
 	public TestData() {
 		super();
@@ -70,7 +76,7 @@ public class TestData extends DataEntity<TestData> {
 		this.name = name;
 	}
 	
-	@Length(min=0, max=1, message="性别长度必须介于 0 和 1 之间")
+	@Validate(required = true,method = "name")
 	public String getSex() {
 		return sex;
 	}
@@ -78,20 +84,31 @@ public class TestData extends DataEntity<TestData> {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	public Date getInDate() {
-		return inDate;
+
+	@Validate(required = true,method = "amount")
+	public BigDecimal getAmount() {
+		return amount;
 	}
 
-	public void setInDate(Date inDate) {
-		this.inDate = inDate;
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
 	}
-	
+
+	@Validate(required = true,method = "number")
+	public int getNumber() {
+		return number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
+	@Validate(required = true,method = "date")//datetime
 	public Date getBeginInDate() {
 		return beginInDate;
 	}
 
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public void setBeginInDate(Date beginInDate) {
 		this.beginInDate = beginInDate;
 	}
@@ -102,6 +119,14 @@ public class TestData extends DataEntity<TestData> {
 
 	public void setEndInDate(Date endInDate) {
 		this.endInDate = endInDate;
+	}
+
+	public Date getInDate() {
+		return inDate;
+	}
+
+	public void setInDate(Date inDate) {
+		this.inDate = inDate;
 	}
 		
 }

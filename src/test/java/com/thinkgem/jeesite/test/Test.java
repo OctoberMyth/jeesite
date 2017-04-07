@@ -1,6 +1,7 @@
 package com.thinkgem.jeesite.test;
 
 import com.thinkgem.jeesite.common.utils.excel.annotation.ValidateProcess;
+import com.thinkgem.jeesite.test.entity.TestData;
 
 import java.math.BigDecimal;
 import java.util.Date;

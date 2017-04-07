@@ -19,6 +19,7 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.utils.excel.annotation.ValidateProcess;
 import com.thinkgem.jeesite.test.entity.TestData;
 import com.thinkgem.jeesite.test.service.TestDataService;
 
@@ -64,6 +65,7 @@ public class TestDataController extends BaseController {
 	@RequiresPermissions("test:testData:edit")
 	@RequestMapping(value = "save")
 	public String save(TestData testData, Model model, RedirectAttributes redirectAttributes) {
+		ValidateProcess.process(testData);
 		if (!beanValidator(model, testData)){
 			return form(testData, model);
 		}
