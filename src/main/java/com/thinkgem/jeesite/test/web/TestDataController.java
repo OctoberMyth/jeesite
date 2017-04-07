@@ -19,7 +19,7 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.common.utils.excel.annotation.ValidateProcess;
+import com.thinkgem.jeesite.common.utils.validate.ValidateProcess;
 import com.thinkgem.jeesite.test.entity.TestData;
 import com.thinkgem.jeesite.test.service.TestDataService;
 

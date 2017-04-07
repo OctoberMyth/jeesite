@@ -13,7 +13,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
-import com.thinkgem.jeesite.common.utils.excel.annotation.Validate;
+import com.thinkgem.jeesite.common.utils.validate.annotation.Validate;
 
 /**
  * 单表生成Entity

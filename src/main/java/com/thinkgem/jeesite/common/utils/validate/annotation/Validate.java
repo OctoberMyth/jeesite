@@ -1,4 +1,4 @@
-package com.thinkgem.jeesite.common.utils.excel.annotation;
+package com.thinkgem.jeesite.common.utils.validate.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

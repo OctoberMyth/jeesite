@@ -1,15 +1,13 @@
-package com.thinkgem.jeesite.common.utils.excel.annotation;
-
-import com.thinkgem.jeesite.common.utils.exception.ParamterException;
-import com.thinkgem.jeesite.common.utils.validate.ValidatorFactory;
-import com.thinkgem.jeesite.common.utils.validate.impl.SimpleValidator;
-
-import org.apache.commons.lang3.StringUtils;
+package com.thinkgem.jeesite.common.utils.validate;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.math.BigDecimal;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.thinkgem.jeesite.common.utils.exception.ParamterException;
+import com.thinkgem.jeesite.common.utils.validate.annotation.Validate;
+import com.thinkgem.jeesite.common.utils.validate.impl.SimpleValidator;
 
 public class ValidateProcess {
 
@@ -82,12 +80,12 @@ public class ValidateProcess {
 
     //类型转换后非空校验
     private static boolean required(Object value, String returnType) {
-        if (ReturnType.RETURN_TYPE_BIGDECIMAL.equals(returnType)) {
-            BigDecimal v = new BigDecimal(value.toString());
-            return false;
-        } else if (ReturnType.RETURN_TYPE_DATE.equals(returnType)) {
-
-        }
+//        if (ReturnType.RETURN_TYPE_BIGDECIMAL.equals(returnType)) {
+//            BigDecimal v = new BigDecimal(value.toString());
+//            return false;
+//        } else if (ReturnType.RETURN_TYPE_DATE.equals(returnType)) {
+//
+//        }
         return true;
     }
 
