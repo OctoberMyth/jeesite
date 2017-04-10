@@ -10,6 +10,9 @@ import com.thinkgem.jeesite.common.utils.global.GlobalMessage;
 import com.thinkgem.jeesite.common.utils.validate.annotation.Validate;
 import com.thinkgem.jeesite.common.utils.validate.util.NotNullValidate;
 import com.thinkgem.jeesite.common.utils.validate.util.RegexValidate;
+import com.thinkgem.jeesite.common.utils.validate.util.RemoteValidate;
+import com.thinkgem.jeesite.test.dao.TestDataDao;
+import com.thinkgem.jeesite.test.entity.TestData;
 
 public class ValidateProcess {
 
@@ -68,14 +71,14 @@ public class ValidateProcess {
 
         //2.格式化校验
         if (StringUtils.isNotBlank(vf.method()) && !ValidatorFactory.execute(vf.method(),value)) {
-        	throw new ParamterException(vf.format());
+        	throw new ParamterException(GlobalMessage.message(vf.format()));
         }else if(StringUtils.isNotBlank(vf.regex()) && !RegexValidate.test(value, vf.regex())){
-        	throw new ParamterException(vf.format());
+        	throw new ParamterException(GlobalMessage.message(vf.format()));
         }
         
         //3.与数据库对比
-        if (StringUtils.isNotBlank(vf.remote())) {
-        	throw new ParamterException(vf.back());
+        if (StringUtils.isNotBlank(vf.remote()) && !RemoteValidate.test(value,TestDataDao.class,"findAllList")) {
+        	throw new ParamterException(GlobalMessage.message(vf.back()));
         }
     }
 

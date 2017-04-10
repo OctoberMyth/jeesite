@@ -37,7 +37,7 @@ public @interface Validate {
 	 * 格式化校验信息
 	 * @return
 	 */
-	String format() default "请填写正确格式";
+	String[] format() default "请填写正确格式";
 	
 	/**
 	 * 数据校验
@@ -49,5 +49,5 @@ public @interface Validate {
 	 * 数据校验信息
 	 * @return
 	 */
-	String back() default "后台校验不通过";
+	String[] back() default "后台校验不通过";
 }

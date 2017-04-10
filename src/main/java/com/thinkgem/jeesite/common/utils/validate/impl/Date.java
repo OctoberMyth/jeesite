@@ -11,6 +11,7 @@ import com.thinkgem.jeesite.common.utils.validate.IValidator;
  */
 @Component
 public class Date implements IValidator{
+	//    "\\d{4}(\\-|\\/|.)\\d{1,2}\\1\\d{1,2}";
 
 	@Override
 	public boolean test(Object value) {
