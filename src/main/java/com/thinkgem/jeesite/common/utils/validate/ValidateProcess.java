@@ -8,8 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import com.thinkgem.jeesite.common.utils.exception.ParamterException;
 import com.thinkgem.jeesite.common.utils.global.GlobalMessage;
 import com.thinkgem.jeesite.common.utils.validate.annotation.Validate;
-import com.thinkgem.jeesite.common.utils.validate.impl.SimpleValidator;
 import com.thinkgem.jeesite.common.utils.validate.util.NotNullValidate;
+import com.thinkgem.jeesite.common.utils.validate.util.RegexValidate;
 
 public class ValidateProcess {
 
@@ -69,7 +69,7 @@ public class ValidateProcess {
         //2.格式化校验
         if (StringUtils.isNotBlank(vf.method()) && !ValidatorFactory.execute(vf.method(),value)) {
         	throw new ParamterException(vf.format());
-        }else if(StringUtils.isNotBlank(vf.regex()) && !SimpleValidator.test(value, vf.regex())){
+        }else if(StringUtils.isNotBlank(vf.regex()) && !RegexValidate.test(value, vf.regex())){
         	throw new ParamterException(vf.format());
         }
         

@@ -10,6 +10,9 @@ import com.thinkgem.jeesite.common.utils.validate.IValidator;
 @Component
 public class Amount implements IValidator{
 
+	/**
+	 * 金额校验
+	 */
 	private String regex = "^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0,2})?$";
 
 	@Override

@@ -7,10 +7,10 @@ import java.util.regex.Pattern;
 public class Test {
 
     public static void main(String[] args) {
-    	String regex = "^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0,2})?$";
+    	String regex = "0?(13|14|15|18)[0-9]{9}";
     	
     	Pattern pattern = Pattern.compile(regex);
-		Matcher match = pattern.matcher("0.01");
+		Matcher match = pattern.matcher("018888888811");
 		if(match.matches()){
 			System.out.println(match.matches()+":");
 		}

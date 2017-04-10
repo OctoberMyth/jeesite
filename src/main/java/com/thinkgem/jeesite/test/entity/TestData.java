@@ -77,7 +77,7 @@ public class TestData extends DataEntity<TestData> {
 		this.name = name;
 	}
 	
-	@Validate(required = true,method = "name")
+	@Validate(required = true)
 	public String getSex() {
 		return sex;
 	}
