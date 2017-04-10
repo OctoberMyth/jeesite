@@ -1,12 +1,8 @@
 package com.thinkgem.jeesite.test;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import java.text.MessageFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.thinkgem.jeesite.common.utils.validate.ValidateProcess;
-import com.thinkgem.jeesite.test.entity.TestData;
 
 public class Test {
 
@@ -18,6 +14,16 @@ public class Test {
 		if(match.matches()){
 			System.out.println(match.matches()+":");
 		}
+		
+		String format = "{0}--{1}";
+		String[] params = {"a","b","c1"};
+		String[] param = new String[params.length-1];
+		for(int i = params.length-1;i >= 1;i --){
+			param[i-1] = params[i];
+		}
+		System.out.println(param);
+		String str = MessageFormat.format(format, param);
+		System.out.println(str.toString());
     	
 //        TestData t = new TestData();
 //        t.setAmount(new BigDecimal(10.00));

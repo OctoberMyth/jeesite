@@ -19,7 +19,7 @@ public @interface Validate {
 	 * 必填信息
 	 * @return
 	 */
-	String must() default "必填信息";
+	String[] must() default "必填信息";
 	
 	/**
 	 * format格式化，支持自定义方法；正则表达式

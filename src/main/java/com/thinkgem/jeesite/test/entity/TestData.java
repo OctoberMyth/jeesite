@@ -3,17 +3,18 @@
  */
 package com.thinkgem.jeesite.test.entity;
 
-import com.thinkgem.jeesite.modules.sys.entity.User;
-import com.thinkgem.jeesite.modules.sys.entity.Office;
-import com.thinkgem.jeesite.modules.sys.entity.Area;
-import org.hibernate.validator.constraints.Length;
-
 import java.math.BigDecimal;
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
+import org.hibernate.validator.constraints.Length;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.common.utils.validate.annotation.Validate;
+import com.thinkgem.jeesite.common.utils.validate.constants.PromptMessages;
+import com.thinkgem.jeesite.modules.sys.entity.Area;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 
 /**
  * 单表生成Entity
@@ -67,7 +68,7 @@ public class TestData extends DataEntity<TestData> {
 		this.area = area;
 	}
 	
-	@Length(min=0, max=100, message="名称长度必须介于 0 和 100 之间")
+	@Validate(required = true,method = "name")
 	public String getName() {
 		return name;
 	}
@@ -85,7 +86,7 @@ public class TestData extends DataEntity<TestData> {
 		this.sex = sex;
 	}
 
-	@Validate(required = true,method = "amount")
+	@Validate(required = true,must={PromptMessages.MUST,"金额"},method = "amount")
 	public BigDecimal getAmount() {
 		return amount;
 	}

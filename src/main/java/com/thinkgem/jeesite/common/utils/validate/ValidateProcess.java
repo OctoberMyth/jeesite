@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import org.apache.commons.lang3.StringUtils;
 
 import com.thinkgem.jeesite.common.utils.exception.ParamterException;
+import com.thinkgem.jeesite.common.utils.global.GlobalMessage;
 import com.thinkgem.jeesite.common.utils.validate.annotation.Validate;
 import com.thinkgem.jeesite.common.utils.validate.impl.SimpleValidator;
 import com.thinkgem.jeesite.common.utils.validate.util.NotNullValidate;
@@ -62,7 +63,7 @@ public class ValidateProcess {
     private static void validate(Validate vf, Object value, Class<?> returnType) {
         //1.非空校验
         if (vf.required() && NotNullValidate.isNull(value)) {
-            throw new ParamterException(vf.must());
+            throw new ParamterException(GlobalMessage.message(vf.must()));
         }
 
         //2.格式化校验
