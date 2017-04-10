@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.thinkgem.jeesite.common.utils.exception.ParamterException;
 import com.thinkgem.jeesite.common.utils.validate.annotation.Validate;
 import com.thinkgem.jeesite.common.utils.validate.impl.SimpleValidator;
+import com.thinkgem.jeesite.common.utils.validate.util.NotNullValidate;
 
 public class ValidateProcess {
 
@@ -20,7 +21,7 @@ public class ValidateProcess {
         getAnnotationMethods(t, cls);
     }
 
-    //check the field
+    //check methods
     private static <T> void getAnnotationMethods(T t, Class<?> cls) {
         Method[] ms = cls.getDeclaredMethods();
         for (Method method : ms) {
@@ -38,7 +39,7 @@ public class ValidateProcess {
         }
     }
 
-    //check methods
+    //check the fields
     private static <T> void getAnnotationFields(T t, Class<?> cls) {
         Field[] fields = cls.getDeclaredFields();
         for (Field field : fields) {
@@ -60,7 +61,7 @@ public class ValidateProcess {
     //依次进行校验
     private static void validate(Validate vf, Object value, Class<?> returnType) {
         //1.非空校验
-        if (vf.required() && StringUtils.isBlank(returnType.toString())) {
+        if (vf.required() && NotNullValidate.isNull(value)) {
             throw new ParamterException(vf.must());
         }
 
@@ -75,18 +76,6 @@ public class ValidateProcess {
         if (StringUtils.isNotBlank(vf.remote())) {
         	throw new ParamterException(vf.back());
         }
-    }
-
-
-    //类型转换后非空校验
-    private static boolean required(Object value, String returnType) {
-//        if (ReturnType.RETURN_TYPE_BIGDECIMAL.equals(returnType)) {
-//            BigDecimal v = new BigDecimal(value.toString());
-//            return false;
-//        } else if (ReturnType.RETURN_TYPE_DATE.equals(returnType)) {
-//
-//        }
-        return true;
     }
 
 }
