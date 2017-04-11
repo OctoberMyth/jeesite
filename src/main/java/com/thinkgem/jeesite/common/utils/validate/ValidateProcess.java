@@ -10,6 +10,7 @@ import com.thinkgem.jeesite.common.utils.exception.SystemException;
 import com.thinkgem.jeesite.common.utils.global.GlobalMessage;
 import com.thinkgem.jeesite.common.utils.util.Extract;
 import com.thinkgem.jeesite.common.utils.validate.annotation.Validate;
+import com.thinkgem.jeesite.common.utils.validate.constants.RemoteType;
 import com.thinkgem.jeesite.common.utils.validate.util.NotNullValidate;
 import com.thinkgem.jeesite.common.utils.validate.util.RegexValidate;
 import com.thinkgem.jeesite.common.utils.validate.util.RemoteValidate;
@@ -126,9 +127,12 @@ public class ValidateProcess<T> {
     private void remoteValidate(Validate vf, Object value){
     	String[] info = vf.remote();
     	String type = info[0];//校验类型repeatCheck,isExist
-    	if(!RemoteValidate.test(value,entity,type,Extract.separationParams(info))){
+    	if((RemoteType.REPEATCHECK.equals(type) || RemoteType.REPEATCHECK.equals(type)) && !RemoteValidate.test(value,entity,type,Extract.separationParams(info))){
 			throw new ParamterException(GlobalMessage.message(vf.back()));
 		}
+//    	else if(!FormatValidatorFactory.test(beanName,value)){
+//			
+//		}
     }
 
 }

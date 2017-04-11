@@ -18,22 +18,13 @@ import com.thinkgem.jeesite.common.utils.exception.SystemException;
  */
 public class FormatValidatorFactory {
 	
-	private static WebApplicationContext webApplicationContext;
-	
-	/**
-	 * 初始化
-	 */
-	static{
-		webApplicationContext = ContextLoader.getCurrentWebApplicationContext();    
-	}
-	
 	/**
 	 * 禁止创建
 	 */
     private FormatValidatorFactory() {}
     
     /**
-     * 执行具体的校验方法
+     * 执行级联校验的方法
      * @param beanName
      * @param value
      * @param entity
@@ -43,7 +34,7 @@ public class FormatValidatorFactory {
     public static boolean test(String beanName,Object value,Object entity,String[] params) {
     	Map<String,Object> pmap = packageParams(entity,params);
     	try{
-    		IFormatValidator validator = (IFormatValidator)webApplicationContext.getBean(beanName);
+    		IFormatValidator validator = (IFormatValidator)SpringContextHolder.getBean(beanName);
             return validator.test(value,pmap);
     	}catch(NoSuchBeanDefinitionException e){
     		throw new SystemException("没有实现对应的校验类:"+toUpperCaseFirstOne(beanName));
