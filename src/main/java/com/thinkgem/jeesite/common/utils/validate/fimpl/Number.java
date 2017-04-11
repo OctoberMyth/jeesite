@@ -1,8 +1,10 @@
-package com.thinkgem.jeesite.common.utils.validate.impl;
+package com.thinkgem.jeesite.common.utils.validate.fimpl;
+
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.thinkgem.jeesite.common.utils.validate.IValidator;
+import com.thinkgem.jeesite.common.utils.validate.IFormatValidator;
 import com.thinkgem.jeesite.common.utils.validate.util.RegexValidate;
 
 /**
@@ -11,13 +13,13 @@ import com.thinkgem.jeesite.common.utils.validate.util.RegexValidate;
  *
  */
 @Component
-public class Number implements IValidator{
+public class Number implements IFormatValidator{
 	
 	/**
 	 * 正整数
 	 */
 	@Override
-	public boolean test(Object value) {
+	public boolean test(Object value,Object ... params) {
 		return RegexValidate.test(value, "[1-9]\\d*");
 	}
 

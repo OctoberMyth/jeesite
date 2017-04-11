@@ -25,7 +25,7 @@ public @interface Validate {
 	 * format格式化，支持自定义方法；正则表达式
 	 * @return
 	 */
-	String method() default "";
+	String[] method() default "";
 	
 	/**
 	 * regex如何检验不是很复杂则可以自定义正则校验
@@ -40,7 +40,7 @@ public @interface Validate {
 	String[] format() default "请填写正确格式";
 	
 	/**
-	 * 数据校验
+	 * 数据校验service.method
 	 * @return
 	 */
 	String remote() default "";

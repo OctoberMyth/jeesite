@@ -6,34 +6,48 @@ import java.lang.reflect.Method;
 import org.apache.commons.lang3.StringUtils;
 
 import com.thinkgem.jeesite.common.utils.exception.ParamterException;
+import com.thinkgem.jeesite.common.utils.exception.SystemException;
 import com.thinkgem.jeesite.common.utils.global.GlobalMessage;
+import com.thinkgem.jeesite.common.utils.util.Extract;
 import com.thinkgem.jeesite.common.utils.validate.annotation.Validate;
 import com.thinkgem.jeesite.common.utils.validate.util.NotNullValidate;
 import com.thinkgem.jeesite.common.utils.validate.util.RegexValidate;
 import com.thinkgem.jeesite.common.utils.validate.util.RemoteValidate;
-import com.thinkgem.jeesite.test.dao.TestDataDao;
-import com.thinkgem.jeesite.test.entity.TestData;
 
-public class ValidateProcess {
+public class ValidateProcess<T> {
+    
+	/**
+	 * 数据对象
+	 */
+    private T entity ;
+    
+    private Object s ;
+    
+    public ValidateProcess(T entity,Object ... s){
+    	this.entity = entity;
+    	this.s = s;
+    	
+    	process(entity);
+    }
 
-    //处理器
-    public static <T> void process(T t, int... groups) {
-        Class<?> cls = t.getClass();
+	//处理器
+    public void process(T entity, int... groups) {
+    	Class<?> cls = entity.getClass();
         //get annotation fields
-        getAnnotationFields(t, cls);
+        getAnnotationFields(cls);
         //get annotation methods
-        getAnnotationMethods(t, cls);
+        getAnnotationMethods(cls);
     }
 
     //check methods
-    private static <T> void getAnnotationMethods(T t, Class<?> cls) {
+    private void getAnnotationMethods(Class<?> cls) {
         Method[] ms = cls.getDeclaredMethods();
         for (Method method : ms) {
             method.setAccessible(true);
             Validate vf = method.getAnnotation(Validate.class);
             if (vf != null) {
                 try {
-                    Object value = method.invoke(t);
+                    Object value = method.invoke(entity);
                     Class<?> returnType = method.getReturnType();
                     validate(vf, value, returnType);
                 } catch (Exception e) {
@@ -44,14 +58,14 @@ public class ValidateProcess {
     }
 
     //check the fields
-    private static <T> void getAnnotationFields(T t, Class<?> cls) {
+    private void getAnnotationFields(Class<?> cls) {
         Field[] fields = cls.getDeclaredFields();
         for (Field field : fields) {
             field.setAccessible(true);
             Validate vf = field.getAnnotation(Validate.class);
             if (vf != null) {
                 try {
-                    Object v = field.get(t);
+                    Object v = field.get(entity);
                     Class<?> returnType = field.getType();
                     validate(vf, v, returnType);
                 } catch (IllegalAccessException e) {
@@ -63,21 +77,57 @@ public class ValidateProcess {
     }
 
     //依次进行校验
-    private static void validate(Validate vf, Object value, Class<?> returnType) {
+    private void validate(Validate vf, Object value, Class<?> returnType) {
         //1.非空校验
-        if (vf.required() && NotNullValidate.isNull(value)) {
-            throw new ParamterException(GlobalMessage.message(vf.must()));
+        if (vf.required()) {
+        	notNullValidate(vf,value);
         }
 
         //2.格式化校验
-        if (StringUtils.isNotBlank(vf.method()) && !ValidatorFactory.execute(vf.method(),value)) {
-        	throw new ParamterException(GlobalMessage.message(vf.format()));
-        }else if(StringUtils.isNotBlank(vf.regex()) && !RegexValidate.test(value, vf.regex())){
-        	throw new ParamterException(GlobalMessage.message(vf.format()));
+        if (vf.method() != null && vf.method().length > 0) {
+        	methodValidate(vf,value);
+        }else if(StringUtils.isNotBlank(vf.regex())){
+        	regexValidate(vf,value);
         }
         
         //3.与数据库对比
-        if (StringUtils.isNotBlank(vf.remote()) && !RemoteValidate.test(value,TestDataDao.class,"findAllList")) {
+        if (StringUtils.isNotBlank(vf.remote())) {
+        	remoteValidate(vf,value);
+        }
+    }
+    
+    //非空校验
+    private void notNullValidate(Validate vf, Object value){
+    	if(NotNullValidate.isNull(value)){
+    		throw new ParamterException(GlobalMessage.message(vf.must()));
+    	}
+    }
+    
+    //使用正则校验
+    private void regexValidate(Validate vf, Object value){
+    	
+		if(!RegexValidate.test(value,vf.regex())){
+			throw new ParamterException(GlobalMessage.message(vf.format()));
+		}else{
+			throw new SystemException("校验参数不能为空！");
+		}
+    }
+    
+    //使用自定义方法校验
+    private void methodValidate(Validate vf, Object value){
+    	String[] info = vf.method();
+    	String beanName = info[0];
+    	
+		if(info.length > 1 && !FormatValidatorFactory.test(beanName,value,entity,Extract.separationParams(info))){
+			throw new ParamterException(GlobalMessage.message(vf.format()));
+		}else if(info.length == 1 && !FormatValidatorFactory.test(beanName,value)){
+			throw new ParamterException(GlobalMessage.message(vf.format()));
+		}
+    }
+    
+    //与数据库对比
+    private void remoteValidate(Validate vf, Object value){
+    	if (!RemoteValidate.test(value,entity,s,"findList")) {
         	throw new ParamterException(GlobalMessage.message(vf.back()));
         }
     }

@@ -67,7 +67,7 @@ public class TestData extends DataEntity<TestData> {
 		this.area = area;
 	}
 	
-	@Validate(required = true,method = "name")
+	@Validate(required = true,method = "name",remote="repeatCheck")
 	public String getName() {
 		return name;
 	}
@@ -76,7 +76,7 @@ public class TestData extends DataEntity<TestData> {
 		this.name = name;
 	}
 	
-	@Validate(required = true)
+	//@Validate(required = true)
 	public String getSex() {
 		return sex;
 	}
@@ -85,7 +85,7 @@ public class TestData extends DataEntity<TestData> {
 		this.sex = sex;
 	}
 
-	@Validate(required = true,must={PromptMessages.MUST,"金额"},method = "amount")
+	//@Validate(required = true,must={PromptMessages.MUST,"金额"},method = {"amount","number"})
 	public BigDecimal getAmount() {
 		return amount;
 	}
@@ -94,7 +94,7 @@ public class TestData extends DataEntity<TestData> {
 		this.amount = amount;
 	}
 
-	@Validate(required = true,method = "number")
+	//@Validate(required = true,method = "number")
 	public int getNumber() {
 		return number;
 	}
@@ -103,7 +103,7 @@ public class TestData extends DataEntity<TestData> {
 		this.number = number;
 	}
 
-	@Validate(required = true,method = "date")//datetime
+	//@Validate(required = true,method = "datetime")
 	public Date getBeginInDate() {
 		return beginInDate;
 	}
@@ -121,6 +121,7 @@ public class TestData extends DataEntity<TestData> {
 		this.endInDate = endInDate;
 	}
 
+	//@Validate(required = true,method = "date")
 	public Date getInDate() {
 		return inDate;
 	}

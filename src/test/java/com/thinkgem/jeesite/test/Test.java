@@ -1,6 +1,8 @@
 package com.thinkgem.jeesite.test;
 
-import java.text.MessageFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,17 +16,14 @@ public class Test {
 		if(match.matches()){
 			System.out.println(match.matches()+":");
 		}
-		
-		String format = "{0}--{1}";
-		String[] params = {"a","b","c1"};
-		String[] param = new String[params.length-1];
-		for(int i = params.length-1;i >= 1;i --){
-			param[i-1] = params[i];
-		}
-		System.out.println(param);
-		String str = MessageFormat.format(format, param);
-		System.out.println(str.toString());
-    	
+		Date date = new Date();
+		Object obj = date;
+		String str = obj.toString();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+	       
+		format.setLenient(false);
+		format.format(obj);
+	       
 //        TestData t = new TestData();
 //        t.setAmount(new BigDecimal(10.00));
 //        t.setSex("nan");

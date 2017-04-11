@@ -8,10 +8,6 @@ public class RegexValidate {
 	public static boolean test(Object value,String regex) {
 		Pattern pattern = Pattern.compile(regex);
 		Matcher match = pattern.matcher(value.toString());
-		if(match.matches()){
-			return true;
-		}else{
-			return false;
-		}
+		return match.matches();
 	}
 }

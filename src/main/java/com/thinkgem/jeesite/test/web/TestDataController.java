@@ -3,6 +3,8 @@
  */
 package com.thinkgem.jeesite.test.web;
 
+import java.math.BigDecimal;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,9 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.validate.ValidateProcess;
+import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.test.entity.TestData;
 import com.thinkgem.jeesite.test.service.TestDataService;
 
@@ -65,7 +67,8 @@ public class TestDataController extends BaseController {
 	@RequiresPermissions("test:testData:edit")
 	@RequestMapping(value = "save")
 	public String save(TestData testData, Model model, RedirectAttributes redirectAttributes) {
-		ValidateProcess.process(testData);
+		testData.setAmount(new BigDecimal("100.00"));
+		new ValidateProcess<TestData>(testData,new TestDataService());
 		if (!beanValidator(model, testData)){
 			return form(testData, model);
 		}

@@ -1,6 +1,10 @@
 package com.thinkgem.jeesite.common.utils.validate.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.thinkgem.jeesite.common.utils.SpringContextHolder;
 
@@ -13,10 +17,26 @@ public class RemoteValidate {
 	
 	//private static Dao dao;
 	
-	public static <T> boolean test(Object value,Class<T> cls,String methods) {
-//		Method method = cls.getMethod(methods, Class<?> value);
-//		Class classDao = SpringContextHolder.getBean(cls.getName());
-//		method.invoke(cls, value);
+	public static <T,E> boolean test(Object value,T t,E s,String methods) {
+		Class<?> cls = t.getClass();
+		Class<?> service = s.getClass();
+		Method method;
+		try {
+			method = service.getMethod(methods,cls);
+			try {
+				method.invoke(s, cls);
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		}
 		
 		return true;
 	}
