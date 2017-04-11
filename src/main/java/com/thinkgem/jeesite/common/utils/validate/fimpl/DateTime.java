@@ -18,9 +18,6 @@ public class DateTime implements IFormatValidator{
 
 	@Override
 	public boolean test(Object value,Object ... params) {
-		Date date = (Date) value;
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		String time = formatter.format(date);
 		return RegexValidate.test(value, "\\d{4}(\\-|\\/|.)\\d{1,2}\\1\\d{1,2}");
 	}
 

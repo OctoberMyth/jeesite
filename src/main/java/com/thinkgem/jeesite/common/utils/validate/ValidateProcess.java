@@ -21,11 +21,8 @@ public class ValidateProcess<T> {
 	 */
     private T entity ;
     
-    private Object s ;
-    
-    public ValidateProcess(T entity,Object ... s){
+    public ValidateProcess(T entity){
     	this.entity = entity;
-    	this.s = s;
     	
     	process(entity);
     }
@@ -51,7 +48,7 @@ public class ValidateProcess<T> {
                     Class<?> returnType = method.getReturnType();
                     validate(vf, value, returnType);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                	throw new SystemException(e);
                 }
             }
         }
@@ -69,7 +66,7 @@ public class ValidateProcess<T> {
                     Class<?> returnType = field.getType();
                     validate(vf, v, returnType);
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                	throw new SystemException(e);
                 }
 
             }
@@ -91,7 +88,7 @@ public class ValidateProcess<T> {
         }
         
         //3.与数据库对比
-        if (StringUtils.isNotBlank(vf.remote())) {
+        if (vf.remote() != null && vf.remote().length > 0) {
         	remoteValidate(vf,value);
         }
     }
@@ -127,9 +124,11 @@ public class ValidateProcess<T> {
     
     //与数据库对比
     private void remoteValidate(Validate vf, Object value){
-    	if (!RemoteValidate.test(value,entity,s,"findList")) {
-        	throw new ParamterException(GlobalMessage.message(vf.back()));
-        }
+    	String[] info = vf.remote();
+    	String type = info[0];//校验类型repeatCheck,isExist
+    	if(!RemoteValidate.test(value,entity,type,Extract.separationParams(info))){
+			throw new ParamterException(GlobalMessage.message(vf.back()));
+		}
     }
 
 }

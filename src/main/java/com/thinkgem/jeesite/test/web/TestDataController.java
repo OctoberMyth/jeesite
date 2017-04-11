@@ -68,7 +68,7 @@ public class TestDataController extends BaseController {
 	@RequestMapping(value = "save")
 	public String save(TestData testData, Model model, RedirectAttributes redirectAttributes) {
 		testData.setAmount(new BigDecimal("100.00"));
-		new ValidateProcess<TestData>(testData,new TestDataService());
+		new ValidateProcess<TestData>(testData);
 		if (!beanValidator(model, testData)){
 			return form(testData, model);
 		}

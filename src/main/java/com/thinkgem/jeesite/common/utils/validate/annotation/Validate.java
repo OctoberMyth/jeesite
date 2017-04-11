@@ -43,7 +43,7 @@ public @interface Validate {
 	 * 数据校验service.method
 	 * @return
 	 */
-	String remote() default "";
+	String[] remote() default "";
 	
 	/**
 	 * 数据校验信息

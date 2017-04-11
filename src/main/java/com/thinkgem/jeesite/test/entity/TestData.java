@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.common.utils.validate.annotation.Validate;
 import com.thinkgem.jeesite.common.utils.validate.constants.PromptMessages;
+import com.thinkgem.jeesite.common.utils.validate.constants.RemoteType;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.User;
@@ -67,7 +68,7 @@ public class TestData extends DataEntity<TestData> {
 		this.area = area;
 	}
 	
-	@Validate(required = true,method = "name",remote="repeatCheck")
+	@Validate(required = true,method = "name",remote={RemoteType.REPEATCHECK,"testDataService.findList"})
 	public String getName() {
 		return name;
 	}

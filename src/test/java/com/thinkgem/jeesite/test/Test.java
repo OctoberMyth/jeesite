@@ -16,14 +16,9 @@ public class Test {
 		if(match.matches()){
 			System.out.println(match.matches()+":");
 		}
-		Date date = new Date();
-		Object obj = date;
-		String str = obj.toString();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-	       
-		format.setLenient(false);
-		format.format(obj);
-	       
+		String str = "testDataService.findList";
+		String[] arr = str.split("\\.");
+		System.out.println(str.split(""));
 //        TestData t = new TestData();
 //        t.setAmount(new BigDecimal(10.00));
 //        t.setSex("nan");
